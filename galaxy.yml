@@ -1,0 +1,21 @@
+namespace: fortinet
+name: fortiadc
+version: 1.0.0
+readme: README.md
+authors:
+  - Ansible Content Engineering
+description: Ansible modules for managing Fortinet FortiADC appliances via REST API
+license:
+  - GPL-3.0-or-later
+tags:
+  - fortiadc
+  - networking
+  - loadbalancer
+  - security
+  - fortinet
+dependencies:
+  ansible.netcommon: "*"
+repository: https://github.com/fortinet-ansible-dev/ansible-galaxy-fortiadc-collection
+documentation: https://docs.fortinet.com/product/fortiadc
+homepage: https://www.fortinet.com
+issues: https://github.com/fortinet-ansible-dev/ansible-galaxy-fortiadc-collection/issues

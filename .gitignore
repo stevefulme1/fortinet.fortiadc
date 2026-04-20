@@ -1,0 +1,7 @@
+*.pyc
+__pycache__/
+*.tar.gz
+*.egg-info/
+.tox/
+.pytest_cache/
+.ansible/
