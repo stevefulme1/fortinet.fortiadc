@@ -17,6 +17,7 @@ version_added: "1.0.0"
 """
 
 import json
+import os
 from datetime import datetime
 
 from ansible.plugins.httpapi import HttpApiBase
@@ -41,14 +42,52 @@ class HttpApi(HttpApiBase):
     def set_custom_option(self, k, v):
         self._options[k] = v
 
+    _SENSITIVE_KEYS = frozenset((
+        "password", "secretkey", "secret", "token", "access_token",
+        "api_key", "private_key", "session_key",
+    ))
+
+    @staticmethod
+    def _sanitize(data):
+        if isinstance(data, dict):
+            return {
+                k: "********" if k.lower() in HttpApi._SENSITIVE_KEYS else HttpApi._sanitize(v)
+                for k, v in data.items()
+            }
+        if isinstance(data, str):
+            try:
+                parsed = json.loads(data)
+                if isinstance(parsed, dict):
+                    return json.dumps(HttpApi._sanitize(parsed))
+            except (json.JSONDecodeError, TypeError):
+                pass
+            if "=" in data and "&" in data:
+                parts = data.split("&")
+                sanitized = []
+                for part in parts:
+                    if "=" in part:
+                        k, v = part.split("=", 1)
+                        if k.lower() in HttpApi._SENSITIVE_KEYS:
+                            sanitized.append("%s=********" % k)
+                            continue
+                    sanitized.append(part)
+                return "&".join(sanitized)
+        return data
+
     def log(self, msg):
         log_enabled = self._options.get("enable_log", False)
         if not log_enabled:
             return
         if not self._log:
-            self._log = open("/tmp/fortiadc.ansible.log", "w")
+            log_path = os.path.join(
+                os.environ.get("TMPDIR", "/tmp"),
+                "fortiadc.ansible.log",
+            )
+            fd = os.open(log_path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+            self._log = os.fdopen(fd, "w")
+            safe_opts = self._sanitize(dict(self.get_options()))
             self._log.write("All set options:")
-            self._log.write(str(self.get_options()) + "\n")
+            self._log.write(str(safe_opts) + "\n")
         log_message = str(datetime.now())
         log_message += ": " + str(msg) + "\n"
         self._log.write(log_message)
@@ -107,8 +146,7 @@ class HttpApi(HttpApiBase):
             method="POST",
         )
         self.log(
-            "API based auth returned status code %s, data: %s"
-            % (status_code, result_data)
+            "API based auth returned status code %s" % status_code
         )
         if status_code in [401, 404]:
             self.log("API based auth failed, fall back to /logincheck")
@@ -237,8 +275,9 @@ class HttpApi(HttpApiBase):
             headers["Authorization"] = "Bearer %s" % self.get_access_token()
 
         url = self._concat_params(url, params)
+        safe_data = self._sanitize(data) if data else ""
         self.log(
-            "Sending request: METHOD:%s URL:%s DATA:%s" % (method, url, data)
+            "Sending request: METHOD:%s URL:%s DATA:%s" % (method, url, safe_data)
         )
 
         try:
