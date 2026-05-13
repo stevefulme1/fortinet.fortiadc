@@ -149,7 +149,7 @@ from ansible_collections.fortinet.fortiadc.plugins.module_utils.fortiadc.fortiad
     check_legacy_fortiadcapi,
     is_successful_status,
 )
-from ansible_collections.fortinet.fortiadc.plugins.module_utils.common import (
+from ansible_collections.fortinet.fortiadc.plugins.module_utils.common.type_utils import (
     FAIL_SOCKET_MSG,
 )
 from ansible_collections.fortinet.fortiadc.plugins.module_utils.common.type_utils import (
