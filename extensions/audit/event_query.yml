@@ -1,0 +1,53 @@
+---
+# extensions/audit/event_query.yml
+# Maps FortiADC module return values to the AAP Normalized Resource Taxonomy.
+# FortiADC modules return: status, http_status, mkey (the resource name).
+# The meta dict contains the full API response. mkey identifies the resource.
+
+fortinet.fortiadc.fortiadc_load_balance_virtual_server:
+  query: >-
+    {
+      name: .mkey,
+      canonical_facts: {
+        uuid: .mkey
+      },
+      facts: {
+        device_type: "load_balancer"
+      }
+    }
+
+fortinet.fortiadc.fortiadc_load_balance_pool:
+  query: >-
+    {
+      name: .mkey,
+      canonical_facts: {
+        uuid: .mkey
+      },
+      facts: {
+        device_type: "load_balancer"
+      }
+    }
+
+fortinet.fortiadc.fortiadc_load_balance_content_routing:
+  query: >-
+    {
+      name: .mkey,
+      canonical_facts: {
+        uuid: .mkey
+      },
+      facts: {
+        device_type: "load_balancer"
+      }
+    }
+
+fortinet.fortiadc.fortiadc_load_balance_health_check:
+  query: >-
+    {
+      name: .mkey,
+      canonical_facts: {
+        uuid: .mkey
+      },
+      facts: {
+        device_type: "load_balancer"
+      }
+    }
