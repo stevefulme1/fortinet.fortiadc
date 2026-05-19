@@ -7,11 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-05-19
+
+### Added
+- Added 8 _info modules for comprehensive query coverage
+- Total module count: 24
+
 ### Maintenance
 
 - Expanded .gitignore with standard patterns for secrets, IDE files, and OS metadata
 
 ## [2.0.1] - 2026-05-18
+
+## [2.2.0] - 2026-05-19
+
+### Added
+- Added 8 _info modules for comprehensive query coverage
+- Total module count: 24
 
 ### Security
 
@@ -19,6 +31,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add confirmation log for session_key retrieval without exposing the key value
 
 ## [2.0.0] - 2026-05-15
+
+## [2.2.0] - 2026-05-19
+
+### Added
+- Added 8 _info modules for comprehensive query coverage
+- Total module count: 24
 
 ### Added
 
@@ -31,6 +49,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI lint failures resolved
 
 ## [1.0.0] - 2026-05-15
+
+## [2.2.0] - 2026-05-19
+
+### Added
+- Added 8 _info modules for comprehensive query coverage
+- Total module count: 24
 
 ### Added
 
