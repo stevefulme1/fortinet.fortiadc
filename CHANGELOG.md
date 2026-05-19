@@ -5,6 +5,13 @@ All notable changes to **fortinet.fortiadc** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2026-05-18
+
+### Security
+
+- Sanitize response body before logging in httpapi `send_request` to prevent credential exposure
+- Add confirmation log for session_key retrieval without exposing the key value
+
 ## [2.0.0] - 2026-05-15
 
 ### Added

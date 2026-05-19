@@ -4,6 +4,15 @@ fortinet.fortiadc Release Notes
 
 .. contents:: Topics
 
+v2.0.1
+======
+
+Security Fixes
+--------------
+
+- Sanitize response body before logging in httpapi ``send_request`` to prevent credential exposure in debug logs.
+- Add confirmation log for session_key retrieval without exposing the key value.
+
 v1.0.0
 ======
 

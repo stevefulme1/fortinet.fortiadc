@@ -190,6 +190,7 @@ class HttpApi(HttpApiBase):
             try:
                 json_result_data = json.loads(result_data)
                 self._session_key = json_result_data["session_key"]
+                self.log("session_key obtained from response body")
             except Exception:
                 self.log(
                     "no session_key obtained from response body, fallback to parse headers"
@@ -285,9 +286,10 @@ class HttpApi(HttpApiBase):
                 url, data, method=method, headers=headers
             )
             json_formatted = to_text(response_data.getvalue())
+            safe_response = self._sanitize(json_formatted)
             self.log(
                 "response status: %s, data: %s...<truncated>"
-                % (to_text(response.status), json_formatted[:200])
+                % (to_text(response.status), safe_response[:200])
             )
             return response.status, json_formatted
         except Exception as err:
